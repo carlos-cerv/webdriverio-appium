@@ -1,10 +1,23 @@
+/**
+ * Login test suite for WebDriverIO Demo App
+ * Tests login functionality including form validation and authentication flow
+ */
+
 import { expect } from 'chai';
 import LoginScreen from '../screenobjects/LoginScreen';
 import { testData } from '../data/testData';
 
+/**
+ * Test suite: Login functionality
+ * Validates login screen elements and user authentication
+ */
 describe('WebDriverIO Demo App - Login Tests', () => {
+    /**
+     * Setup before each test
+     * Navigates to the login screen and ensures it's ready for testing
+     */
     beforeEach(async () => {
-        // Navigate to login screen
+        // Wait for app to stabilize
         await driver.pause(1000);
         
         // Tap on Login tab
@@ -15,6 +28,10 @@ describe('WebDriverIO Demo App - Login Tests', () => {
         }
     });
 
+    /**
+     * Test: Verify login form is displayed
+     * Validates that all login form elements are visible on screen
+     */
     it('should display login form', async () => {
         // Verify login form elements are displayed
         const usernameInput = await LoginScreen.usernameInput;
@@ -26,6 +43,10 @@ describe('WebDriverIO Demo App - Login Tests', () => {
         expect(await loginButton.isDisplayed()).to.be.true;
     });
 
+    /**
+     * Test: Verify username can be entered successfully
+     * Validates that username input accepts and retains text
+     */
     it('should enter username successfully', async () => {
         // Enter username
         await LoginScreen.enterUsername(testData.users.validUser.username);
@@ -36,6 +57,10 @@ describe('WebDriverIO Demo App - Login Tests', () => {
         expect(usernameValue).to.equal('test@webdriver.io');
     });
 
+    /**
+     * Test: Verify password can be entered successfully
+     * Validates that password input accepts text (content will be masked)
+     */
     it('should enter password successfully', async () => {
         // Enter password
         await LoginScreen.enterPassword(testData.users.validUser.password);
@@ -46,6 +71,10 @@ describe('WebDriverIO Demo App - Login Tests', () => {
         expect(hasValue.length).to.be.greaterThan(0);
     });
 
+    /**
+     * Test: Verify complete login flow
+     * Tests end-to-end login process with valid credentials
+     */
     it('should complete login flow', async () => {
         // Enter credentials
         await LoginScreen.enterUsername(testData.users.validUser.username);
@@ -62,6 +91,10 @@ describe('WebDriverIO Demo App - Login Tests', () => {
         expect(true).to.be.true;
     });
 
+    /**
+     * Cleanup after each test
+     * Captures screenshot on test failure for debugging purposes
+     */
     afterEach(async function() {
         // Take screenshot if test fails
         if (this.currentTest?.state === 'failed') {

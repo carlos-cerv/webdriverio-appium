@@ -1,21 +1,40 @@
 {
+  // TypeScript Compiler Configuration
+  // Configures TypeScript compilation for mobile test automation project
   "compilerOptions": {
+    // Target JavaScript version for compiled output
     "target": "ES2022",
+    // Module system for output files
     "module": "commonjs",
+    // Standard library type definitions to include
     "lib": ["ES2022"],
+    // Module resolution strategy
     "moduleResolution": "node",
+    // Type definition packages to include
     "types": ["node", "@wdio/globals/types", "mocha"],
+    // Enable importing JSON files as modules
     "resolveJsonModule": true,
+    // Enable interoperability between CommonJS and ES Modules
     "esModuleInterop": true,
+    // Allow default imports from modules with no default export
     "allowSyntheticDefaultImports": true,
+    // Enable all strict type checking options
     "strict": true,
+    // Skip type checking of declaration files
     "skipLibCheck": true,
+    // Enforce consistent casing in file names
     "forceConsistentCasingInFileNames": true,
+    // Output directory for compiled files
     "outDir": "./dist",
+    // Root directory of source files
     "rootDir": "./src",
+    // Generate source map files for debugging
     "sourceMap": true,
+    // Generate type declaration files
     "declaration": true
   },
+  // Files to include in compilation
   "include": ["src/**/*"],
+  // Files to exclude from compilation
   "exclude": ["node_modules", "dist"]
 }

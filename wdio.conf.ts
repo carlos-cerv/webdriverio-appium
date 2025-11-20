@@ -1,11 +1,24 @@
+/**
+ * WebDriverIO Configuration File
+ * Main configuration for mobile test automation with Appium
+ * Supports both Android and iOS platforms
+ * @see https://webdriver.io/docs/configurationfile
+ */
+
 import type { Options } from '@wdio/types';
 
+/**
+ * Test runner configuration
+ * Defines all settings for test execution including capabilities, timeouts, and hooks
+ */
 export const config: Options.Testrunner = {
     //
     // ====================
     // Runner Configuration
     // ====================
+    // Use local runner for test execution
     runner: 'local',
+    // Auto-compile TypeScript files during test execution
     autoCompileOpts: {
         autoCompile: true,
         tsNodeOpts: {
@@ -18,27 +31,41 @@ export const config: Options.Testrunner = {
     // ==================
     // Specify Test Files
     // ==================
+    // Pattern to locate all test spec files
     specs: [
         './src/tests/**/*.spec.ts'
     ],
+    // Files to exclude from test execution
     exclude: [],
 
     //
     // ============
     // Capabilities
     // ============
+    // Maximum number of parallel test sessions
     maxInstances: 1,
+    // Device capabilities for Android testing
     capabilities: [{
         platformName: 'Android',
+        // Android device name (emulator or real device)
         'appium:deviceName': 'Pixel 9a',
+        // Android OS version
         'appium:platformVersion': '16.0',
+        // Automation framework for Android
         'appium:automationName': 'UiAutomator2',
+        // Path to the Android application package (APK)
         'appium:app': '/Users/carlos.eduardo/webDriveriO/apps/android/app-debug.apk',
+        // Android app package identifier
         'appium:appPackage': 'com.wdiodemoapp',
+        // Main activity to launch
         'appium:appActivity': 'com.wdiodemoapp.MainActivity',
+        // Automatically grant app permissions
         'appium:autoGrantPermissions': true,
+        // Don't reset app state between sessions
         'appium:noReset': true,
+        // Don't perform full app reset
         'appium:fullReset': false,
+        // Command timeout in seconds (prevent session timeout)
         'appium:newCommandTimeout': 240
     }],
 
@@ -46,148 +73,183 @@ export const config: Options.Testrunner = {
     // ===================
     // Test Configurations
     // ===================
+    // Logging level (trace | debug | info | warn | error | silent)
     logLevel: 'info',
+    // Stop test execution after first failure (0 = run all tests)
     bail: 0,
+    // Default timeout for waitFor* commands in milliseconds
     waitforTimeout: 30000,
+    // Timeout for Appium server connection attempts
     connectionRetryTimeout: 120000,
+    // Number of connection retry attempts
     connectionRetryCount: 3,
     
     //
-    // =====
-    // Hooks
-    // =====
+    // ===================
+    // Services & Plugins
+    // ===================
+    // Appium service - automatically starts and stops Appium server
     services: ['appium'],
     
+    // Appium server port
     port: 4723,
     
+    // Test framework to use (mocha | jasmine | cucumber)
     framework: 'mocha',
+    
+    // Test reporters for output formatting
     reporters: [
-        'spec',
-        ['allure', {
+        'spec',  // Console output with test results
+        ['allure', {  // Allure reporter for detailed HTML reports
             outputDir: './allure-results',
             disableWebdriverStepsReporting: false,
             disableWebdriverScreenshotsReporting: false,
         }]
     ],
 
+    // Mocha framework options
     mochaOpts: {
-        ui: 'bdd',
-        timeout: 60000
+        ui: 'bdd',  // BDD-style test syntax (describe, it)
+        timeout: 60000  // Test timeout in milliseconds
     },
 
     //
-    // =====
-    // Hooks
-    // =====
+    // ==============
+    // Lifecycle Hooks
+    // ==============
     /**
-     * Gets executed once before all workers get launched.
+     * Hook: Executed once before all workers get launched
+     * Use for global test preparation tasks
      */
     onPrepare: function () {
         console.log('Starting test execution...');
     },
+    
     /**
-     * Gets executed before a worker process is spawned and can be used to initialize specific service
-     * for that worker as well as modify runtime environments in an async fashion.
+     * Hook: Executed before a worker process is spawned
+     * Use for worker-specific initialization or environment setup
      */
     onWorkerStart: function () {
         console.log('Worker started');
     },
+    
     /**
-     * Gets executed just after a worker process has exited.
+     * Hook: Executed after a worker process has exited
+     * Use for worker-specific cleanup tasks
      */
     onWorkerEnd: function () {
         console.log('Worker ended');
     },
+    
     /**
-     * Gets executed just before initialising the webdriver session and test framework. It allows you
-     * to manipulate configurations depending on the capability or spec.
+     * Hook: Executed before initializing the webdriver session
+     * Use to manipulate configurations based on capability or spec
      */
     beforeSession: function () {
         console.log('Before session');
     },
+    
     /**
-     * Gets executed before test execution begins. At this point you can access to all global
-     * variables like `browser`. It is the perfect place to define custom commands.
+     * Hook: Executed before test execution begins
+     * Global variables like 'browser' are accessible here
+     * Perfect place to define custom commands
      */
     before: async function () {
-        // Set implicit timeout
+        // Set implicit timeout if needed
         // await browser.setTimeout({ 'implicit': 10000 });
     },
     /**
-     * Hook that gets executed before the suite starts
+     * Hook: Executed before a test suite starts
+     * Use for suite-level setup tasks
      */
     beforeSuite: function () {
         console.log('Before suite');
     },
+    
     /**
-     * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
-     * beforeEach in Mocha)
+     * Hook: Executed before a hook within the suite starts
+     * Runs before beforeEach/afterEach in Mocha
      */
     beforeHook: function () {
         // Add custom logic before hooks
     },
+    
     /**
-     * Hook that gets executed _after_ a hook within the suite ends (e.g. runs after calling
-     * afterEach in Mocha)
+     * Hook: Executed after a hook within the suite ends
+     * Runs after beforeEach/afterEach in Mocha
      */
     afterHook: function () {
         // Add custom logic after hooks
     },
+    
     /**
-     * Function to be executed before a test (in Mocha/Jasmine) starts.
+     * Hook: Executed before each test starts
+     * Use for test-level setup and initialization
      */
     beforeTest: function () {
         console.log('Starting test');
     },
+    
     /**
-     * Runs before a WebDriver command gets executed.
+     * Hook: Executed before a WebDriver command
+     * Use for command logging or modification
      */
     beforeCommand: function () {
         // Add custom logic before commands
     },
+    
     /**
-     * Runs after a WebDriver command gets executed
+     * Hook: Executed after a WebDriver command
+     * Use for command result logging or validation
      */
     afterCommand: function () {
         // Add custom logic after commands
     },
     /**
-     * Function to be executed after a test (in Mocha/Jasmine only)
-     * @param {object}  test             test object
-     * @param {object}  context          scope object the test was executed with
-     * @param {Error}   result.error     error object in case the test fails, otherwise `undefined`
-     * @param {*}       result.result    return object of test function
-     * @param {number}  result.duration  duration of test
-     * @param {boolean} result.passed    true if test has passed, otherwise false
-     * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
+     * Hook: Executed after each test completes
+     * Use for test cleanup and failure handling
+     * @param {object}  test             - Test object with metadata
+     * @param {object}  context          - Test execution context
+     * @param {Error}   result.error     - Error object if test failed
+     * @param {*}       result.result    - Test function return value
+     * @param {number}  result.duration  - Test execution duration
+     * @param {boolean} result.passed    - Test pass/fail status
+     * @param {object}  result.retries   - Retry information
      */
     afterTest: async function (test, context, { error }) {
         if (error) {
-            // Screenshot will be taken in test file afterEach hook
+            // Screenshot capture is handled in test file afterEach hook
         }
     },
+    
     /**
-     * Hook that gets executed after the suite has ended
+     * Hook: Executed after a test suite ends
+     * Use for suite-level cleanup tasks
      */
     afterSuite: function () {
         console.log('After suite');
     },
+    
     /**
-     * Gets executed after all tests are done. You still have access to all global variables from
-     * the test.
+     * Hook: Executed after all tests complete
+     * Global variables are still accessible for cleanup
      */
     after: function () {
         console.log('After all tests');
     },
+    
     /**
-     * Gets executed right after terminating the webdriver session.
+     * Hook: Executed after terminating the webdriver session
+     * Use for session cleanup and resource disposal
      */
     afterSession: function () {
         console.log('After session');
     },
+    
     /**
-     * Gets executed after all workers got shut down and the process is about to exit. An error
-     * thrown in the onComplete hook will result in the test run failing.
+     * Hook: Executed after all workers shut down
+     * Final cleanup before process exit
+     * Errors here will fail the test run
      */
     onComplete: function () {
         console.log('Test execution completed');

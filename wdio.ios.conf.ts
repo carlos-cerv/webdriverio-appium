@@ -1,20 +1,31 @@
-# iOS Configuration for WebDriverIO
+/**
+ * iOS Configuration for WebDriverIO
+ * This configuration extends the base config with iOS-specific capabilities
+ */
 
 import type { Options } from '@wdio/types';
 import { config as baseConfig } from './wdio.conf';
 
+/**
+ * Export iOS test runner configuration
+ * Merges base configuration with iOS-specific settings
+ */
 export const config: Options.Testrunner = {
     ...baseConfig,
     
-    // iOS-specific capabilities
+    // iOS-specific capabilities for test execution
     capabilities: [{
         platformName: 'iOS',
-        'appium:deviceName': 'iPhone 15 Pro', // Available: iPhone 15, iPhone 15 Pro, iPhone 15 Pro Max, iPhone SE (3rd gen)
-        'appium:platformVersion': '17.0', // Update to match your Xcode/Simulator version
+        'appium:deviceName': 'iPhone 16 Pro', // Available: iPhone 15, iPhone 15 Pro, iPhone 15 Pro Max, iPhone SE (3rd gen)
+        'appium:platformVersion': '18.5', // Update to match your Xcode/Simulator version
         'appium:automationName': 'XCUITest',
-        'appium:app': process.cwd() + '/apps/ios/YourApp.app', // Update with your .app or .ipa file
-        // Alternative: Use bundleId if app is already installed
-        // 'appium:bundleId': 'com.yourcompany.yourapp',
+        // iOS app path - Update with your actual .app or .ipa file
+        // Note: Currently no valid iOS app in apps/ios folder
+        // For WebDriverIO demo app, download from: https://github.com/webdriverio/native-demo-app/releases
+        // Extract the .app.zip file and place the .app bundle here
+        'appium:app': process.cwd() + '/apps/ios/iOS-Simulator-NativeDemoApp.app',
+        // Alternative: Use bundleId if app is already installed on simulator
+        // 'appium:bundleId': 'com.wdiodemoapp',
         'appium:noReset': false,
         'appium:fullReset': false,
         'appium:newCommandTimeout': 240,
