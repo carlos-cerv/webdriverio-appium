@@ -87,15 +87,16 @@ The workflows automatically publish Allure reports to GitHub Pages:
    - Save
 
 2. **View Reports:**
-   - URL: `https://<your-username>.github.io/<repository-name>`
-   - Each test run creates a new report with history
+   - Android Reports: `https://<your-username>.github.io/<repository-name>/android-reports`
+   - iOS Reports: `https://<your-username>.github.io/<repository-name>/ios-reports`
+   - Each test run updates the report in its respective directory
 
 3. **Report Features:**
    - Test execution timeline
    - Pass/fail statistics
    - Test case details with steps
    - Screenshots on failures
-   - Historical trends (last 20 runs)
+   - Separate reports for Android and iOS platforms
 
 ---
 

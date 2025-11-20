@@ -81,12 +81,11 @@ jobs:
           path: screenshots/
           retention-days: 7
 
-      - name: Publish Allure Report
+      - name: Deploy Allure Report to GitHub Pages
         if: always()
-        uses: simple-elf/allure-report-action@v1.7
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          allure_results: allure-results
-          allure_report: allure-report
-          gh_pages: gh-pages
-          allure_history: allure-history
-          keep_reports: 20
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+          destination_dir: ios-reports
+          keep_files: true
