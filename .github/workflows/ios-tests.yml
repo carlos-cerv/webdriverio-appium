@@ -1,0 +1,92 @@
+name: iOS Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  ios-test:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install iOS dependencies
+        run: |
+          brew install carthage || true
+          npm install -g ios-deploy || true
+
+      - name: Install Appium drivers
+        run: |
+          npx appium driver install xcuitest
+
+      - name: List available simulators
+        run: xcrun simctl list devices available
+
+      - name: Start iOS Simulator
+        run: |
+          SIMULATOR_ID=$(xcrun simctl list devices available | grep "iPhone 15 Pro" | grep -v "unavailable" | head -1 | grep -oE '\([A-F0-9-]+\)' | tr -d '()')
+          if [ -z "$SIMULATOR_ID" ]; then
+            SIMULATOR_ID=$(xcrun simctl list devices available | grep "iPhone" | grep -v "unavailable" | head -1 | grep -oE '\([A-F0-9-]+\)' | tr -d '()')
+          fi
+          echo "Starting simulator with ID: $SIMULATOR_ID"
+          xcrun simctl boot $SIMULATOR_ID || echo "Simulator already booted"
+          sleep 10
+
+      - name: Run iOS tests
+        run: npm run test:ios
+        continue-on-error: true
+
+      - name: Generate Allure Report
+        if: always()
+        run: npm run report || echo "Report generation completed"
+
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-ios
+          path: allure-results/
+          retention-days: 30
+
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-ios
+          path: allure-report/
+          retention-days: 30
+
+      - name: Upload Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-ios
+          path: screenshots/
+          retention-days: 7
+
+      - name: Publish Allure Report
+        if: always()
+        uses: simple-elf/allure-report-action@v1.7
+        with:
+          allure_results: allure-results
+          allure_report: allure-report
+          gh_pages: gh-pages
+          allure_history: allure-history
+          keep_reports: 20

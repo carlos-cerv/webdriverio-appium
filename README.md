@@ -10,17 +10,17 @@ A comprehensive mobile test automation framework built with WebDriverIO, TypeScr
 
 > **Note:** Replace `YOUR_USERNAME/YOUR_REPO` in the badges above with your actual GitHub username and repository name.
 
-## 🚀 Features
+## Features
 
-- ✅ **Cross-Platform Support**: Test both iOS and Android applications
-- ✅ **TypeScript**: Fully typed for better IDE support and code quality
-- ✅ **Page Object Model**: Clean, maintainable test architecture
-- ✅ **Reusable Utilities**: Gesture helpers, wait helpers, and device utilities
-- ✅ **Allure Reporting**: Beautiful test reports with screenshots
-- ✅ **ESLint**: Code quality and consistency
-- ✅ **Platform-Specific Screens**: Separate handling for Android and iOS
+- **Cross-Platform Support**: Test both iOS and Android applications
+- **TypeScript**: Fully typed for better IDE support and code quality
+- **Page Object Model**: Clean, maintainable test architecture
+- **Reusable Utilities**: Gesture helpers, wait helpers, and device utilities
+- **Allure Reporting**: Comprehensive test reports with screenshots
+- **ESLint**: Code quality and consistency
+- **Platform-Specific Screens**: Separate handling for Android and iOS
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 webDriveriO/
@@ -49,7 +49,7 @@ webDriveriO/
 └── README.md                      # This file
 ```
 
-## 🔧 Prerequisites
+## Prerequisites
 
 Before you begin, ensure you have the following installed:
 
@@ -76,7 +76,7 @@ appium driver install uiautomator2
 appium driver install xcuitest
 ```
 
-## 📦 Installation
+## Installation
 
 1. Clone the repository (or navigate to your project directory):
 
@@ -90,7 +90,7 @@ cd /Users/carlos.eduardo/webDriveriO
 npm install
 ```
 
-## 📱 Setup
+## Setup
 
 ### Android Setup
 
@@ -121,7 +121,7 @@ emulator -avd <emulator_name>
 
 ### iOS Setup (macOS only)
 
-**📱 iOS testing is now configured!** See the complete setup guide: **[docs/IOS_SETUP.md](docs/IOS_SETUP.md)**
+**Note:** iOS testing is now configured. See the complete setup guide: **[docs/IOS_SETUP.md](docs/IOS_SETUP.md)**
 
 Quick setup:
 
@@ -164,7 +164,7 @@ npm run test:ios
 > 
 > See [docs/IOS_SETUP.md](docs/IOS_SETUP.md) for detailed instructions, WebDriverAgent setup, and troubleshooting.
 
-## 🎯 Configuration
+## Configuration
 
 ### Configuration Files
 
@@ -185,7 +185,7 @@ The framework is **pre-configured with WebDriverIO demo app**:
 3. Create new page objects matching your app's screens
 4. Update test data in `src/data/testData.ts`
 
-## 🏃 Running Tests
+## Running Tests
 
 The framework includes a WebDriverIO demo app ready for testing.
 
@@ -235,7 +235,7 @@ When running `npm run test:demo`, you should see:
 Spec Files: 1 passed, 1 total (100% completed)
 ```
 
-## 📊 Reports
+## Reports
 
 ### Generate Allure Report
 
@@ -257,7 +257,7 @@ The Allure report includes:
 - Platform and device information
 - Execution statistics and trends
 
-## 🧪 Writing Tests
+## Writing Tests
 
 ### Example Test
 
@@ -347,7 +347,7 @@ class NewScreen {
 export default new NewScreen();
 ```
 
-## 🛠️ Utilities
+## Utilities
 
 ### Gesture Helper
 
@@ -397,7 +397,7 @@ const orientation = await DeviceHelper.getOrientation();
 await DeviceHelper.takeScreenshot('screenshot-name');
 ```
 
-## 🧹 Code Quality
+## Code Quality
 
 ### Run Linter
 
@@ -411,7 +411,7 @@ npm run lint
 npm run lint:fix
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Appium Server Not Starting
 
@@ -453,7 +453,7 @@ npm run lint:fix
 - Check `tsconfig.json` includes mocha types
 - Verify `@types/chai` and `@types/mocha` are in devDependencies
 
-## 🚀 CI/CD - GitHub Actions
+## CI/CD - GitHub Actions
 
 The framework includes GitHub Actions workflows for automated testing:
 
@@ -500,7 +500,7 @@ See [.github/workflows/README.md](.github/workflows/README.md) for:
 - Cost optimization tips
 - Troubleshooting guide
 
-## 📚 Best Practices
+## Best Practices
 
 1. **Use Page Object Model**: Keep selectors and actions in page objects
 2. **Wait Explicitly**: Always wait for elements before interacting
@@ -511,21 +511,21 @@ See [.github/workflows/README.md](.github/workflows/README.md) for:
 7. **Screenshots on Failure**: Automatically capture screenshots on test failures
 8. **Descriptive Test Names**: Write clear, descriptive test case names
 
-## 🤝 Contributing
+## Contributing
 
 1. Create a feature branch
 2. Make your changes
 3. Run linter and tests
 4. Submit a pull request
 
-## 📄 License
+## License
 
 ISC
 
-## 👥 Author
+## Author
 
 Carlos Eduardo
 
 ---
 
-**Happy Testing! 🚀**
+**Happy Testing!**
