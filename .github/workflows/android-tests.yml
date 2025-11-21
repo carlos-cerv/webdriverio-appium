@@ -53,7 +53,7 @@ jobs:
       - name: Start Android Emulator
         run: |
           echo "Starting emulator"
-          $ANDROID_HOME/emulator/emulator -avd test_emulator -no-audio -no-window -no-snapshot -no-boot-anim -gpu swiftshader_indirect &
+          $ANDROID_HOME/emulator/emulator -avd test_emulator -no-audio -no-window -no-snapshot -no-boot-anim -accel off -gpu swiftshader_indirect -memory 2048 -cores 2 &
           adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'
           adb devices
           echo "Emulator started"

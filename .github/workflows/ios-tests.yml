@@ -45,13 +45,21 @@ jobs:
       - name: List available simulators
         run: xcrun simctl list devices available
 
+      - name: Get iOS Simulator Info
+        run: |
+          echo "Available iOS Simulators:"
+          xcrun simctl list devices available | grep iPhone
+          
       - name: Start iOS Simulator
         run: |
           SIMULATOR_ID=$(xcrun simctl list devices available | grep "iPhone 15 Pro" | grep -v "unavailable" | head -1 | grep -oE '\([A-F0-9-]+\)' | tr -d '()')
           if [ -z "$SIMULATOR_ID" ]; then
+            echo "iPhone 15 Pro not found, using any available iPhone"
             SIMULATOR_ID=$(xcrun simctl list devices available | grep "iPhone" | grep -v "unavailable" | head -1 | grep -oE '\([A-F0-9-]+\)' | tr -d '()')
           fi
           echo "Starting simulator with ID: $SIMULATOR_ID"
+          DEVICE_NAME=$(xcrun simctl list devices available | grep "$SIMULATOR_ID" | sed 's/(.*//' | xargs)
+          echo "Device Name: $DEVICE_NAME"
           xcrun simctl boot $SIMULATOR_ID || echo "Simulator already booted"
           sleep 10
 
