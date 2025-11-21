@@ -9,6 +9,7 @@
     "test:ios": "wdio run wdio.ios.conf.ts",
     "test:demo": "wdio run wdio.conf.ts --spec ./src/tests/demo-login.spec.ts",
     "check:ios": "./scripts/check-ios-setup.sh",
+    "setup:ios": "./scripts/setup-ios-app.sh",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "report": "allure generate ./allure-results --clean && allure open"

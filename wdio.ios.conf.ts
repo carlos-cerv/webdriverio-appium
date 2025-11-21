@@ -19,13 +19,17 @@ export const config: Options.Testrunner = {
         'appium:deviceName': 'iPhone 16 Pro', // Available: iPhone 15, iPhone 15 Pro, iPhone 15 Pro Max, iPhone SE (3rd gen)
         'appium:platformVersion': '18.5', // Update to match your Xcode/Simulator version
         'appium:automationName': 'XCUITest',
-        // iOS app path - Update with your actual .app or .ipa file
-        // Note: Currently no valid iOS app in apps/ios folder
-        // For WebDriverIO demo app, download from: https://github.com/webdriverio/native-demo-app/releases
-        // Extract the .app.zip file and place the .app bundle here
-        'appium:app': process.cwd() + '/apps/ios/iOS-Simulator-NativeDemoApp.app',
-        // Alternative: Use bundleId if app is already installed on simulator
-        // 'appium:bundleId': 'com.wdiodemoapp',
+        // iOS app configuration
+        // OPTION 1: Download actual iOS demo app
+        // 1. Go to: https://github.com/webdriverio/native-demo-app/releases/latest
+        // 2. Download: iOS-Simulator-NativeDemoApp-x.x.x.app.zip
+        // 3. Extract to apps/ios/ folder
+        // 4. Uncomment line below and update with actual app name:
+        // 'appium:app': process.cwd() + '/apps/ios/iOS-Simulator-NativeDemoApp-0.4.0.app',
+        
+        // OPTION 2: Use bundleId (requires app pre-installed on simulator)
+        // This is the current active configuration
+        'appium:bundleId': 'com.wdiodemoapp',
         'appium:noReset': false,
         'appium:fullReset': false,
         'appium:newCommandTimeout': 240,

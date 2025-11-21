@@ -1,16 +1,48 @@
 # iOS Application Files
 
+## Important Notice
+⚠️ **The files in this directory are placeholder text files, not actual iOS applications.**
+
+Files like `app.ipa`, `app.zip`, and `iOS-Simulator-NativeDemoApp-1.0.8.app.zip` contain only the text "Not Found" and cannot be used for testing.
+
 ## Current Status
-The current files in this directory are placeholders and need to be replaced with actual iOS application files.
+You need to download the actual iOS application files from the official source.
 
 ## Setup Instructions
 
+### Current Status
+The files in this directory (app.ipa, app.zip, iOS-Simulator-NativeDemoApp-1.0.8.app.zip) are **placeholder text files** and cannot be used for testing.
+
 ### Option 1: WebDriverIO Demo App (Recommended for Testing)
-1. Download the iOS simulator app from: https://github.com/webdriverio/native-demo-app/releases
-2. Download `iOS-Simulator-NativeDemoApp-x.x.x.app.zip`
-3. Extract the zip file to get the `.app` bundle
-4. Place the extracted `.app` folder in this directory
-5. Update `wdio.ios.conf.ts` to point to: `iOS-Simulator-NativeDemoApp.app`
+
+#### Setup Instructions
+1. **Download the actual iOS simulator app:**
+   - Go to: https://github.com/webdriverio/native-demo-app/releases/latest
+   - Download: `iOS-Simulator-NativeDemoApp-x.x.x.app.zip` (get the latest version)
+   - Example: `iOS-Simulator-NativeDemoApp-0.4.0.app.zip`
+
+2. **Extract the downloaded file:**
+   ```bash
+   cd apps/ios
+   unzip ~/Downloads/iOS-Simulator-NativeDemoApp-0.4.0.app.zip
+   ```
+   This will create a `.app` bundle folder.
+
+3. **Update `wdio.ios.conf.ts`:**
+   - Uncomment the `'appium:app'` line
+   - Update with the actual .app file name (e.g., `iOS-Simulator-NativeDemoApp-0.4.0.app`)
+   - Comment out the `'appium:bundleId'` line
+
+4. **Run iOS tests:**
+   ```bash
+   npm run test:ios
+   ```
+
+#### Quick Guide Command
+```bash
+npm run setup:ios
+```
+This displays setup instructions (does not download files automatically)
 
 ### Option 2: Your Own iOS App
 

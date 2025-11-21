@@ -33,6 +33,6 @@ export const appConfig: AppConfig = {
     },
     ios: {
         bundleId: 'com.yourcompany.yourapp', // Update with your app's bundle ID
-        appPath: process.cwd() + '/apps/ios/YourApp.app' // Update with your .app file path
+        appPath: process.cwd() + '/apps/ios/wdiodemoapp.app' // Update with your .app file path
     }
 };
