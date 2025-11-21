@@ -577,8 +577,7 @@ ISC
 
 ## Author
 
-Carlos Eduardo
+Carlos Eduardo Cervantes Arteaga
+Software Quality Engineer
 
 ---
-
-**Happy Testing!**

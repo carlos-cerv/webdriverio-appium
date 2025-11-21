@@ -12,7 +12,8 @@
     "setup:ios": "./scripts/setup-ios-app.sh",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
-    "report": "allure generate ./allure-results --clean && allure open"
+    "report": "allure generate ./allure-results --clean",
+    "report:open": "allure generate ./allure-results --clean && allure open"
   },
   "keywords": [
     "webdriverio",
