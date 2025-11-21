@@ -17,7 +17,7 @@ export const config: Options.Testrunner = {
     capabilities: [{
         platformName: 'iOS',
         'appium:deviceName': 'iPhone 15 Pro', // Available: iPhone 15, iPhone 15 Pro, iPhone 15 Pro Max, iPhone SE (3rd gen)
-        'appium:platformVersion': '17.5', // Update to match your Xcode/Simulator version (GitHub Actions uses 17.x)
+        'appium:platformVersion': '18.4', // Update to match your Xcode/Simulator version (GitHub Actions has 18.4+)
         'appium:automationName': 'XCUITest',
         // iOS app configuration
         // OPTION 1: Download actual iOS demo app
