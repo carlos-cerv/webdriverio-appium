@@ -40,7 +40,7 @@ export const config: Options.Testrunner = {
         'appium:wdaLaunchTimeout': 120000,
         'appium:wdaConnectionTimeout': 120000,
         'appium:showXcodeLog': true, // Helpful for debugging
-        'appium:udid': 'auto', // Auto-detect simulator, or specify specific UDID
+        // udid removed - Appium will auto-detect the booted simulator
     }],
     
     // iOS-specific service options

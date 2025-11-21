@@ -33,35 +33,52 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install iOS dependencies
-        run: |
-          brew install carthage || true
-          npm install -g ios-deploy || true
-
       - name: Install Appium drivers
         run: |
           npx appium driver update xcuitest || npx appium driver install xcuitest
 
-      - name: List available simulators
-        run: xcrun simctl list devices available
-
-      - name: Get iOS Simulator Info
+      - name: Create and Boot iOS Simulator
         run: |
           echo "Available iOS Simulators:"
-          xcrun simctl list devices available | grep iPhone
+          xcrun simctl list devices available
           
-      - name: Start iOS Simulator
-        run: |
-          SIMULATOR_ID=$(xcrun simctl list devices available | grep "iPhone 15 Pro" | grep -v "unavailable" | head -1 | grep -oE '\([A-F0-9-]+\)' | tr -d '()')
+          # Find iPhone 15 Pro with iOS 18.4
+          SIMULATOR_ID=$(xcrun simctl list devices available | grep -E "iPhone 15 Pro.*18\.4" | head -1 | grep -oE '\([A-F0-9-]+\)' | tr -d '()')
+          
           if [ -z "$SIMULATOR_ID" ]; then
-            echo "iPhone 15 Pro not found, using any available iPhone"
+            echo "iPhone 15 Pro with iOS 18.4 not found, looking for any iPhone 15 Pro"
+            SIMULATOR_ID=$(xcrun simctl list devices available | grep "iPhone 15 Pro" | head -1 | grep -oE '\([A-F0-9-]+\)' | tr -d '()')
+          fi
+          
+          if [ -z "$SIMULATOR_ID" ]; then
+            echo "No iPhone 15 Pro found, using any available iPhone"
             SIMULATOR_ID=$(xcrun simctl list devices available | grep "iPhone" | grep -v "unavailable" | head -1 | grep -oE '\([A-F0-9-]+\)' | tr -d '()')
           fi
-          echo "Starting simulator with ID: $SIMULATOR_ID"
-          DEVICE_NAME=$(xcrun simctl list devices available | grep "$SIMULATOR_ID" | sed 's/(.*//' | xargs)
-          echo "Device Name: $DEVICE_NAME"
+          
+          echo "Selected Simulator ID: $SIMULATOR_ID"
+          
+          # Get device details
+          DEVICE_INFO=$(xcrun simctl list devices available | grep "$SIMULATOR_ID")
+          echo "Device Info: $DEVICE_INFO"
+          
+          # Boot the simulator
+          echo "Booting simulator..."
           xcrun simctl boot $SIMULATOR_ID || echo "Simulator already booted"
-          sleep 10
+          
+          # Wait for simulator to be ready
+          echo "Waiting for simulator to be ready..."
+          for i in {1..30}; do
+            if xcrun simctl list devices | grep "$SIMULATOR_ID" | grep -q "Booted"; then
+              echo "Simulator is booted and ready"
+              break
+            fi
+            echo "Waiting... ($i/30)"
+            sleep 2
+          done
+          
+          # List booted devices
+          echo "Booted devices:"
+          xcrun simctl list devices | grep Booted
 
       - name: Run iOS tests
         run: npm run test:ios
@@ -71,28 +88,15 @@ jobs:
         if: always()
         run: npm run report || echo "Report generation completed"
 
-      - name: Upload Allure Results
+      - name: Upload Test Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-ios
-          path: allure-results/
-          retention-days: 30
-
-      - name: Upload Allure Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report-ios
-          path: allure-report/
-          retention-days: 30
-
-      - name: Upload Screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: screenshots-ios
-          path: screenshots/
+          name: ios-test-artifacts
+          path: |
+            allure-results/
+            allure-report/
+            screenshots/
           retention-days: 7
 
       - name: Deploy Allure Report to GitHub Pages

@@ -47,9 +47,16 @@ jobs:
           target: google_apis
           arch: arm64-v8a
           profile: pixel_5
+          cores: 2
+          ram-size: 4096M
+          heap-size: 512M
+          disk-size: 8192M
           force-avd-creation: false
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
           disable-animations: true
+          disable-spellchecker: true
+          disable-linux-hw-accel: auto
+          emulator-boot-timeout: 600
           script: npm run test:android
         continue-on-error: true
 
@@ -57,28 +64,15 @@ jobs:
         if: always()
         run: npm run report || echo "Report generation completed"
 
-      - name: Upload Allure Results
+      - name: Upload Test Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-android
-          path: allure-results/
-          retention-days: 30
-
-      - name: Upload Allure Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report-android
-          path: allure-report/
-          retention-days: 30
-
-      - name: Upload Screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: screenshots-android
-          path: screenshots/
+          name: android-test-artifacts
+          path: |
+            allure-results/
+            allure-report/
+            screenshots/
           retention-days: 7
 
       - name: Deploy Allure Report to GitHub Pages
