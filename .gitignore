@@ -12,8 +12,6 @@ build/
 *.tsbuildinfo
 
 # Test reports and artifacts
-allure-results/
-allure-report/
 screenshots/
 videos/
 logs/

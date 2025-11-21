@@ -578,6 +578,7 @@ ISC
 ## Author
 
 Carlos Eduardo Cervantes Arteaga
-Software Quality Engineer
+
+**Software Quality Engineer**
 
 ---
