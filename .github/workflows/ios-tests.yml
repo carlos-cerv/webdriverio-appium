@@ -40,7 +40,7 @@ jobs:
 
       - name: Install Appium drivers
         run: |
-          npx appium driver install xcuitest
+          npx appium driver update xcuitest || npx appium driver install xcuitest
 
       - name: List available simulators
         run: xcrun simctl list devices available

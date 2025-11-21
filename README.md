@@ -1,14 +1,13 @@
 # WebDriverIO Mobile Test Automation Framework
 
-[![Android Tests](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/android-tests.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/android-tests.yml)
-[![Quick CI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml)
+[![Android Tests](https://github.com/carlos-cerv/webdriverio-appium/actions/workflows/android-tests.yml/badge.svg)](https://github.com/carlos-cerv/webdriverio-appium/actions/workflows/android-tests.yml)
+[![iOS Tests](https://github.com/carlos-cerv/webdriverio-appium/actions/workflows/ios-tests.yml/badge.svg)](https://github.com/carlos-cerv/webdriverio-appium/actions/workflows/ios-tests.yml)
+[![Quick CI](https://github.com/carlos-cerv/webdriverio-appium/actions/workflows/ci.yml/badge.svg)](https://github.com/carlos-cerv/webdriverio-appium/actions/workflows/ci.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
 [![WebDriverIO](https://img.shields.io/badge/WebDriverIO-8.27-orange.svg)](https://webdriver.io/)
 [![Appium](https://img.shields.io/badge/Appium-2.0-purple.svg)](https://appium.io/)
 
 A comprehensive mobile test automation framework built with WebDriverIO, TypeScript, and Page Object Model (POM) pattern for iOS and Android testing.
-
-> **Note:** Replace `YOUR_USERNAME/YOUR_REPO` in the badges above with your actual GitHub username and repository name.
 
 ## Features
 
@@ -17,13 +16,29 @@ A comprehensive mobile test automation framework built with WebDriverIO, TypeScr
 - **Page Object Model**: Clean, maintainable test architecture
 - **Reusable Utilities**: Gesture helpers, wait helpers, and device utilities
 - **Allure Reporting**: Comprehensive test reports with screenshots
-- **ESLint**: Code quality and consistency
+- **GitHub Actions CI/CD**: Automated testing for Android and iOS
+- **ESLint Configuration**: Code quality and consistency enforcement
+- **Comprehensive Documentation**: JSDoc comments throughout the codebase
 - **Platform-Specific Screens**: Separate handling for Android and iOS
 
 ## Project Structure
 
 ```
-webDriveriO/
+webdriverio-appium/
+├── .github/
+│   └── workflows/              # GitHub Actions CI/CD workflows
+│       ├── android-tests.yml   # Android automated tests
+│       ├── ios-tests.yml       # iOS automated tests
+│       ├── ci.yml              # Linting and type checking
+│       └── README.md           # Workflows documentation
+├── apps/
+│   ├── android/                # Android APK files
+│   └── ios/                    # iOS app files
+├── docs/
+│   └── IOS_SETUP.md           # Detailed iOS setup guide
+├── scripts/
+│   ├── check-ios-setup.sh     # iOS environment verification
+│   └── setup-ios-app.sh       # iOS app setup helper
 ├── src/
 │   ├── config/
 │   │   └── app.config.ts          # App configuration (package names, bundle IDs)
@@ -218,6 +233,12 @@ npm run test:ios
 
 # Run specific test file
 npx wdio run wdio.conf.ts --spec ./src/tests/demo-login.spec.ts
+
+# Setup iOS app (displays setup instructions)
+npm run setup:ios
+
+# Check iOS environment setup
+npm run check:ios
 ```
 
 **Note**: Appium starts automatically via `@wdio/appium-service`. No manual start needed.
@@ -455,41 +476,60 @@ npm run lint:fix
 
 ## CI/CD - GitHub Actions
 
-The framework includes GitHub Actions workflows for automated testing:
+The framework includes comprehensive GitHub Actions workflows for automated testing:
 
 ### Available Workflows
 
 1. **Android Tests** (`.github/workflows/android-tests.yml`)
-   - Runs on macOS with Android emulator
-   - Executes demo tests automatically
-   - Generates Allure reports
-   - Duration: ~10-15 minutes (with caching)
+   - Runs on macOS with Android emulator (API 34)
+   - Executes all Android tests automatically
+   - Generates and publishes Allure reports to GitHub Pages
+   - Uploads test artifacts (results, reports, screenshots)
+   - Duration: ~10-15 minutes
 
-2. **Quick CI** (`.github/workflows/ci.yml`)
-   - Fast linting and type checking
+2. **iOS Tests** (`.github/workflows/ios-tests.yml`)
+   - Runs on macOS with iOS simulator
+   - Executes all iOS tests automatically
+   - Generates and publishes Allure reports to GitHub Pages
+   - Uploads test artifacts (results, reports, screenshots)
+   - Duration: ~8-12 minutes
+
+3. **Quick CI** (`.github/workflows/ci.yml`)
+   - Fast linting and TypeScript type checking
    - Runs on every push/PR
    - Duration: ~2-3 minutes
 
+### GitHub Pages Reports
+
+Allure reports are automatically published to GitHub Pages:
+- **Android Reports**: `https://carlos-cerv.github.io/webdriverio-appium/android-reports`
+- **iOS Reports**: `https://carlos-cerv.github.io/webdriverio-appium/ios-reports`
+
 ### Setup GitHub Actions
 
-1. Push your code to GitHub:
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin <your-repo-url>
-git push -u origin main
-```
+1. **Enable GitHub Pages** (for Allure reports):
+   - Go to repository Settings → Pages
+   - Source: Deploy from a branch
+   - Branch: `gh-pages` / `root`
+   - Save
 
-2. GitHub Actions will automatically run on:
+2. **Workflows automatically run on**:
    - Push to `main` or `develop` branches
-   - Pull requests
-   - Manual trigger (via Actions tab)
+   - Pull requests to `main` or `develop`
+   - Manual trigger (via Actions tab - workflow_dispatch)
 
-3. View results:
+3. **View results**:
    - Go to "Actions" tab in your repository
-   - Download test artifacts (reports, screenshots)
+   - Click on any workflow run to see details
+   - Download test artifacts (results, reports, screenshots)
+   - View Allure reports on GitHub Pages
+
+4. **Workflow Features**:
+   - Automatic dependency installation
+   - Environment setup (Android SDK, Xcode, Appium)
+   - Test execution with proper error handling
+   - Artifact retention (30 days for reports, 7 days for screenshots)
+   - GitHub Pages deployment for persistent report hosting
 
 ### Customization
 
@@ -499,6 +539,17 @@ See [.github/workflows/README.md](.github/workflows/README.md) for:
 - Adding notifications (Slack, email)
 - Cost optimization tips
 - Troubleshooting guide
+
+## Documentation
+
+The project includes comprehensive documentation:
+
+- **JSDoc Comments**: All classes, methods, and functions are documented
+- **Configuration Comments**: Detailed explanations in all config files
+- **Type Definitions**: Custom TypeScript types with examples
+- **Workflow Documentation**: Complete CI/CD setup guide in `.github/workflows/README.md`
+- **iOS Setup Guide**: Detailed iOS configuration in `docs/IOS_SETUP.md`
+- **Code Quality**: ESLint configuration with TypeScript support
 
 ## Best Practices
 
@@ -510,6 +561,8 @@ See [.github/workflows/README.md](.github/workflows/README.md) for:
 6. **Clean Test Data**: Use test data files for reusable data
 7. **Screenshots on Failure**: Automatically capture screenshots on test failures
 8. **Descriptive Test Names**: Write clear, descriptive test case names
+9. **Document Your Code**: Add JSDoc comments for new methods and classes
+10. **Run Linter**: Use `npm run lint` before committing code
 
 ## Contributing
 
